@@ -17,6 +17,13 @@ import Products from "../pagesAdmin/Products/Products";
 // Layout general
 import Layout from "@/components/Layout/Layout";
 
+// Login Page
+import LoginPage from "../pages/Login/Login";
+
+// Protected Route and Admin Layout
+import ProtectedRoute from "../components/Auth/ProtectedRoute";
+import AdminLayout from "../components/Layout/AdminLayout";
+
 export function Router() {
   return (
     <BrowserRouter>
@@ -32,10 +39,24 @@ export function Router() {
           <Route path="/paginas" element={<Paginas />} />
         </Route>
 
-        {/* Admin sin layout (o puedes crear otro layout de admin) */}
-        <Route path="/admin/categorias" element={<Category />} />
-        <Route path="/admin/productos" element={<Products />} />
-        <Route path="/admin/promociones" element={<Discounts />} />
+        {/* Ruta de Login */}
+        <Route path="/login" element={<LoginPage />} />
+
+        {/* Admin Routes */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="categorias" element={<Category />} />
+          <Route path="productos" element={<Products />} />
+          <Route path="promociones" element={<Discounts />} />
+          {/* Example of an index route for /admin, redirecting to products */}
+          {/* <Route index element={<Navigate to="productos" replace />} /> */}
+        </Route>
       </Routes>
     </BrowserRouter>
   );
